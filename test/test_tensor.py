@@ -20,21 +20,15 @@ class TensorTestCase(unittest.TestCase):
         Stere.browser.quit()
 
     def test_search(self):
-        browser = Browser("chrome")
-        browser.visit("http://www.yandex.ru")
-        search_bar = browser.find_by_xpath("//form[@role='search']//input[not(@type='hidden')]").first
-        assert search_bar.visible
-        search_bar.click()
-        search_bar.fill("Тензор")
-        suggestions = browser.find_by_xpath(
-            "//li[contains(@id, 'suggest-item-') and @role='option' and @data-type='fulltext']")
-        assert suggestions.visible
-        search_bar.type(Keys.ENTER)
-        results = browser.find_by_xpath('//ul[@id="search-result"]')
-        assert results.visible
-        top_result = browser.find_by_xpath("//li[contains(@class, 'serp-item')]").first
-        assert top_result.links.find_by_href("https://tensor.ru/")
-        browser.quit()
+        self.hp.click_search_bar()
+        # todo don't forget to check suggestions
+        # search_form.query.fill("Тензор")
+        # suggestions = self.hp.suggestions
+        # assert suggestions.areas[0].link.is_visible
+        # search_form.submit.click() #todo look for a way to actually press enter
+        sr = self.hp.search("Тензор")
+        top_result = sr.get_top_result()
+        assert 'tensor.ru' in top_result.link.element['href']
 
     def test_pictures(self):
         self.hp.click_navigation("Картинки", True, Stere.browser)
