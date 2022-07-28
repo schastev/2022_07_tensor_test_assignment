@@ -31,6 +31,6 @@ class TensorTestCase(unittest.TestCase):
         assert 'tensor.ru' in top_result.link.element['href']
 
     def test_pictures(self):
-        self.hp.click_navigation("Картинки", True, Stere.browser)
+        self.hp.navigation.click_navigation("Картинки", True, Stere.browser)
 
 
