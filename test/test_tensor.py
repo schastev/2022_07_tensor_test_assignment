@@ -20,7 +20,7 @@ class TensorTestCase(unittest.TestCase):
         Stere.browser.quit()
 
     def test_search(self):
-        self.hp.click_search_bar()
+        self.hp.search_form.click_form()
         # todo don't forget to check suggestions
         # search_form.query.fill("Тензор")
         # suggestions = self.hp.suggestions

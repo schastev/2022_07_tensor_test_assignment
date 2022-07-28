@@ -1,7 +1,7 @@
-from typing import Union
+from typing import Union, T
 
 from stere import Page
-from stere.areas import Area, RepeatingArea
+from stere.areas import Area, RepeatingArea, Repeating
 from stere.fields import Button, Input, Link, Root, Text, Field
 from src.pages.search_results import Search_Results
 
@@ -26,9 +26,23 @@ class Navigation(RepeatingArea):
         # and I can't do that without specifying addresses for each nav section, which is uncool
 
 
+class Search(Area):
+    def __init__(self, **kwargs: Union[Field, T, Repeating]):
+        super().__init__(**kwargs)
+
+    def click_form(self):
+        search_form = self.root.element
+        assert search_form.visible
+        search_form.click()
+
+    def search(self, search_query):
+        self.perform(search_query)
+        return Search_Results()
+
+
 class Home_Page(Page):
     def __init__(self):
-        self.search_form = Area(
+        self.search_form = Search(
             root=Root('xpath', "//form[@role='search']"),
             query=Input('xpath', ".//input[not(@type='hidden')]"),
             submit=Button('xpath', ".//button")
@@ -37,18 +51,8 @@ class Home_Page(Page):
             root=Root('xpath', "//li[contains(@class, 'mini-suggest__item')]"),
             link=Link('xpath', './span')
         )
-        self.navigation = Navigation(Root('xpath', "//li[@class='services-new__list-item']"),
-                                     title=Text('xpath', ".//div[@class= 'services-new__item-title']"),
-                                     link=Link('xpath', ".//a")
-                                     )
-
-    def click_search_bar(self):
-        search_form = self.search_form.root.element
-        assert search_form.visible
-        search_form.click()
-
-    def search(self, search_query):
-        self.search_form.perform(search_query)
-        return Search_Results()
-
-
+        self.navigation = Navigation(
+            root=Root('xpath', "//li[@class='services-new__list-item']"),
+            title=Text('xpath', ".//div[@class= 'services-new__item-title']"),
+            link=Link('xpath', ".//a")
+        )
