@@ -7,6 +7,8 @@ from src.pages.home_page import Home_Page
 
 
 # https://github.com/cobrateam/splinter/blob/master/samples/test_google_search.py
+from src.pages.search_results import Search_Results
+
 
 class TensorTestCase(unittest.TestCase):
     def setUp(self):
@@ -21,12 +23,10 @@ class TensorTestCase(unittest.TestCase):
 
     def test_search(self):
         self.hp.search_form.click_form()
-        # todo don't forget to check suggestions
-        # search_form.query.fill("Тензор")
-        # suggestions = self.hp.suggestions
-        # assert suggestions.areas[0].link.is_visible
-        # search_form.submit.click() #todo look for a way to actually press enter
-        sr = self.hp.search("Тензор")
+        self.hp.search_form.input_query("Тензор")
+
+        self.hp.search_form.submit.click() #todo look for a way to actually press enter
+        sr = Search_Results()
         top_result = sr.get_top_result()
         assert 'tensor.ru' in top_result.link.element['href']
 

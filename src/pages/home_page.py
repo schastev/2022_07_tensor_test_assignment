@@ -29,6 +29,8 @@ class Navigation(RepeatingArea):
 class Search(Area):
     def __init__(self, **kwargs: Union[Field, T, Repeating]):
         super().__init__(**kwargs)
+        self.query = kwargs.get('query')
+        self.submit = kwargs.get('submit')
 
     def click_form(self):
         search_form = self.root.element
@@ -39,6 +41,18 @@ class Search(Area):
         self.perform(search_query)
         return Search_Results()
 
+    def input_query(self, query):
+        self.query.fill(query)
+        return Suggestions(
+            root=Root('xpath', "//li[contains(@class, 'mini-suggest__item')]"),
+            link=Link('xpath', './span'))
+
+
+class Suggestions(RepeatingArea):
+    def __init__(self, root: Field, **kwargs: Union[Field, Area]):
+        super().__init__(root, **kwargs)
+        assert self.areas[0].link.is_visible
+
 
 class Home_Page(Page):
     def __init__(self):
@@ -46,10 +60,6 @@ class Home_Page(Page):
             root=Root('xpath', "//form[@role='search']"),
             query=Input('xpath', ".//input[not(@type='hidden')]"),
             submit=Button('xpath', ".//button")
-        )
-        self.suggestions = RepeatingArea(
-            root=Root('xpath', "//li[contains(@class, 'mini-suggest__item')]"),
-            link=Link('xpath', './span')
         )
         self.navigation = Navigation(
             root=Root('xpath', "//li[@class='services-new__list-item']"),
