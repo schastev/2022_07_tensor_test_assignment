@@ -15,19 +15,11 @@ class Navigation(RepeatingArea):
     def click_navigation(self, section, close_prev_window, browser):
         window_name = browser.windows.current.name
         element = self.areas.containing("title", section)[0].link
-        href = element.element['href']
         assert element.is_visible
         allure.attach("Ссылка отображается", f"Проверка отображения ссылки на раздел {section}")
         element.click()
         if close_prev_window:
             utils.close_window(browser, window_name, browser.title)
-        assert browser.url == href
-        allure.attach("Переход осуществлен", f"Проверка перехода на адрес {href}")
-        """
-        not exactly what I'm being asked here,
-        but I'm trying to make the method immediately reusable,
-        and I can't do that without specifying addresses for each nav section, which is uncool
-        """
 
 
 class Search(Area):

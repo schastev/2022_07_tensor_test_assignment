@@ -4,6 +4,7 @@ import allure
 from stere import Stere
 from splinter import Browser
 from src.pages.home_page import Home_Page
+from src.pages.images_page import Images_Page
 
 from src.pages.search_results import Search_Results
 
@@ -37,5 +38,9 @@ class TensorTestCase(unittest.TestCase):
     @allure.title('Картинки в яндексе')
     def test_pictures(self):
         self.hp.navigation.click_navigation("Картинки", True, Stere.browser)
+        ip = Images_Page(Stere.browser)
+        top_category = ip.popular_items.get_top_item()
+        ip.popular_items.click_category(top_category)
+
 
 
