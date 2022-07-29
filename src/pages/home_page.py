@@ -41,6 +41,9 @@ class Search(Area):
         self.perform(search_query)
         return Search_Results()
 
+    def submit(self):
+        self.submit().perform()
+
     def input_query(self, query):
         self.query.fill(query)
         return Suggestions(
