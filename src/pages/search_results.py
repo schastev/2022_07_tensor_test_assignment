@@ -6,17 +6,23 @@ from stere.fields import Button, Input, Link, Root, Text
 
 class Search_Results(Page):
     @allure.step('Перейти на страницу результатов поиска')
-    def __init__(self):
-        self.results = RepeatingArea(
-            root=Root('xpath', "//li[contains(@class, 'serp-item')]"),
-            title=Text('xpath', ".//span[contains(@class, 'organic__title')]"),
-            link=Link('xpath', ".//a[contains(@class, 'path__item')]")
-        )
-        assert self.results.areas[0].title.is_visible
+    def __init__(self, mode):
+        if mode == 'text':
+            self.results = RepeatingArea(
+                root=Root('xpath', "//li[contains(@class, 'serp-item')]"),
+                title=Text('xpath', ".//span[contains(@class, 'organic__title')]"),
+                link=Link('xpath', ".//a[contains(@class, 'path__item')]")
+            )
+        elif mode == 'image':
+            self.results = RepeatingArea(
+                root=Root('xpath', "//div[@role='listitem' and @data-grid-position]"),
+                link=Link('xpath', ".//a")
+            )
 
     def get_top_result(self):
         return self.results.areas[0]
 
+    # todo think of a way to assign methods to specific modes: this method is text-only
     @allure.step('Проверить, что ссылка в первом результате поиска содержит {1}')
     def assert_top_result_leads_to_site(self, site):
         top_result = self.get_top_result()

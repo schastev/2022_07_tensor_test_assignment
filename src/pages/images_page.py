@@ -4,6 +4,7 @@ import allure
 from stere import Page
 from stere.areas import Area, RepeatingArea
 from stere.fields import Root, Text, Field
+from src.pages.search_results import Search_Results
 
 
 class Popular_Items(RepeatingArea):
@@ -20,6 +21,7 @@ class Popular_Items(RepeatingArea):
     @allure.step('Кликнуть на категорию "{1}')
     def click_category(self, cat_name):
         self.items.areas.containing('title', cat_name)[0].title.click()
+        return Search_Results('image')
 
 
 class Images_Page(Page):

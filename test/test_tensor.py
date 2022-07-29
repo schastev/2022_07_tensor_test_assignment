@@ -32,7 +32,7 @@ class TensorTestCase(unittest.TestCase):
         self.hp.search_form.input_query("Тензор")
         self.hp.search_form.submit()
 
-        sr = Search_Results()
+        sr = Search_Results('text')
         sr.assert_top_result_leads_to_site('tensor.ru')
 
     @allure.title('Картинки в яндексе')
@@ -40,7 +40,9 @@ class TensorTestCase(unittest.TestCase):
         self.hp.navigation.click_navigation("Картинки", True, Stere.browser)
         ip = Images_Page(Stere.browser)
         top_category = ip.popular_items.get_top_item()
-        ip.popular_items.click_category(top_category)
+
+        sr = ip.popular_items.click_category(top_category)
+        sr.get_top_result().link.click()
 
 
 
