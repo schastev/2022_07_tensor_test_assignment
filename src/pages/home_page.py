@@ -11,19 +11,23 @@ class Navigation(RepeatingArea):
     def __init__(self, root: Field, **kwargs: Union[Field, Area]):
         super().__init__(root, **kwargs)
 
-    @allure.step('Нажать на кнопку {1} на панели навигации в верхней части страницы')
+    @allure.step('Кликнуть на ссылку на раздел "{1}" на панели навигации в верхней части страницы')
     def click_navigation(self, section, close_prev_window, browser):
         window_name = browser.windows.current.name
         element = self.areas.containing("title", section)[0].link
         href = element.element['href']
         assert element.is_visible
+        allure.attach("Ссылка отображается", f"Проверка отображения ссылки на раздел {section}")
         element.click()
         if close_prev_window:
             utils.close_window(browser, window_name, browser.title)
         assert browser.url == href
-        # not exactly what I'm being asked here,
-        # but I'm trying to make the method immediately reusable,
-        # and I can't do that without specifying addresses for each nav section, which is uncool
+        allure.attach("Переход осуществлен", f"Проверка перехода на адрес {href}")
+        """
+        not exactly what I'm being asked here,
+        but I'm trying to make the method immediately reusable,
+        and I can't do that without specifying addresses for each nav section, which is uncool
+        """
 
 
 class Search(Area):
