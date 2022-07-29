@@ -15,7 +15,19 @@ class TensorTestCase(unittest.TestCase):
         self.navigate_to_home_page()
 
     def browser_setup(self):
-        Stere.browser = Browser("chrome")
+        capabilities = {
+            "browserName": "chrome",
+            "browserVersion": "103.0",
+            "selenoid:options": {
+                "enableVideo": False,
+                "enableVNC": True,
+                "enableLog": True,
+                "screenResolution": "1600x900x24"
+            }
+        }
+        Stere.browser = Browser(driver_name="remote",
+                                command_executor="http://localhost:4444/wd/hub",
+                                desired_capabilities=capabilities)
         Stere.url_navigator = 'visit'
         Stere.base_url = "http://www.yandex.ru/"
 
@@ -51,8 +63,3 @@ class TensorTestCase(unittest.TestCase):
         iv.compare_images(False, top_image)
         iv.image_container.prev()
         iv.compare_images(True, top_image)
-
-
-
-
-
