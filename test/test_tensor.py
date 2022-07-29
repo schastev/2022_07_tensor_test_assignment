@@ -1,7 +1,6 @@
 import unittest
 
 import allure
-import pytest
 from stere import Stere
 from splinter import Browser
 from src.pages.home_page import Home_Page
@@ -33,8 +32,7 @@ class TensorTestCase(unittest.TestCase):
         self.hp.search_form.submit()
 
         sr = Search_Results()
-        top_result = sr.get_top_result()
-        assert 'tensor.ru' in top_result.link.element['href']
+        sr.assert_top_result_leads_to_site('tensor.ru')
 
     @allure.title('Картинки в яндексе')
     def test_pictures(self):
