@@ -4,11 +4,13 @@ import allure
 from stere import Page
 from stere.areas import RepeatingArea, Area, Repeating
 from stere.fields import Button, Input, Link, Root, Text, Field
+from test.utils.api_utils import download_bytes
 
 from src.common.common_elements import Search
 
 
 class Image_Viewer(Area):
+    @allure.step("Кликнуть на картинку")
     def __init__(self, **kwargs: Union[Field, T, Repeating]):
         super().__init__(**kwargs)
         self.image_container = Area(
@@ -16,6 +18,30 @@ class Image_Viewer(Area):
             prev=Button('xpath', "//div[contains(@class, 'CircleButton_type_prev')]"),
             image=Field('xpath', '//img[@class="MMImage-Origin"]')
         )
+        assert self.image_container.image.is_visible
+        allure.attach("Картинка открылась",
+                      "Проверка открытия картинки в списке результатов", allure.attachment_type.TEXT)
+
+    def download_current_image(self):
+        link = self.image_container.image.element['src']
+        return download_bytes(link)
+
+    @allure.step("Кликнуть на стрелку вправо")
+    def next(self):
+        self.image_container.next.click()
+
+    @allure.step("Кликнуть на стрелку влево")
+    def next(self):
+        self.image_container.prev.click()
+
+    @allure.step("Сравнить текущую картинку с эталонной. Ожидаемый результат сравнения: {1}")
+    def compare_images(self, should_equal, compare_to):
+        current_image = self.download_current_image()
+        assert (current_image == compare_to) == should_equal
+        prefix = ''
+        if not should_equal:
+            prefix = 'не '
+        allure.attach(f"Текущая картинка {prefix}равна эталонной", "Сравнение изображений", allure.attachment_type.TEXT)
 
 
 class Search_Results(Page):

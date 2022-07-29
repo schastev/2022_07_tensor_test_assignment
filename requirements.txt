@@ -34,3 +34,4 @@ trio
 urllib3
 wheel
 wsproto
+requests
