@@ -1,9 +1,21 @@
+from typing import Union, T
+
 import allure
 from stere import Page
-from stere.areas import RepeatingArea
-from stere.fields import Button, Input, Link, Root, Text
+from stere.areas import RepeatingArea, Area, Repeating
+from stere.fields import Button, Input, Link, Root, Text, Field
 
 from src.common.common_elements import Search
+
+
+class Image_Viewer(Area):
+    def __init__(self, **kwargs: Union[Field, T, Repeating]):
+        super().__init__(**kwargs)
+        self.image_container = Area(
+            next=Button('xpath', "//div[contains(@class, 'CircleButton_type_next')]"),
+            prev=Button('xpath', "//div[contains(@class, 'CircleButton_type_prev')]"),
+            image=Field('xpath', '//img[@class="MMImage-Origin"]')
+        )
 
 
 class Search_Results(Page):
@@ -25,10 +37,15 @@ class Search_Results(Page):
                 root=Root('xpath', "//div[@role='listitem' and @data-grid-position]"),
                 link=Link('xpath', ".//a")
             )
+            self.mode = mode
 
     def get_top_result(self):
         return self.results.areas[0]
 
+    def click_result(self, result):
+        result.link.click()
+        if self.mode == 'image':
+            return Image_Viewer()
 
     # todo think of a way to assign methods to specific modes: this method is text-only
     @allure.step('Проверить, что ссылка в первом результате поиска содержит {1}')

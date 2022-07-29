@@ -42,7 +42,11 @@ class TensorTestCase(unittest.TestCase):
         top_category = ip.popular_items.get_top_item()
 
         sr = ip.popular_items.click_category(top_category)
-        sr.get_top_result().link.click()
+        sr.search_form.assert_query(top_category)
+        top_result = sr.get_top_result()
+
+        iv = sr.click_result(top_result)
+
 
 
 
