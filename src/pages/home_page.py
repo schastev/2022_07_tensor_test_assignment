@@ -4,6 +4,7 @@ import allure
 from stere import Page
 from stere.areas import Area, RepeatingArea, Repeating
 from stere.fields import Button, Input, Link, Root, Text, Field
+import test.utils.browser_utils as utils
 
 
 class Navigation(RepeatingArea):
@@ -18,9 +19,7 @@ class Navigation(RepeatingArea):
         assert element.is_visible
         element.click()
         if close_prev_window:
-            assert len(browser.windows) == 2
-            browser.windows[window_name].close()
-            assert len(browser.windows) == 1
+            utils.close_window(browser, window_name, browser.title)
         assert browser.url == href
         # not exactly what I'm being asked here,
         # but I'm trying to make the method immediately reusable,
