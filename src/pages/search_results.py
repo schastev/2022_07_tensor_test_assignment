@@ -1,9 +1,11 @@
+import allure
 from stere import Page
 from stere.areas import Area, RepeatingArea
 from stere.fields import Button, Input, Link, Root, Text
 
 
 class Search_Results(Page):
+    @allure.step('Перейти на страницу результатов поиска')
     def __init__(self):
         self.results = RepeatingArea(
             root=Root('xpath', "//li[contains(@class, 'serp-item')]"),
