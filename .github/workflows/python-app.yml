@@ -39,10 +39,15 @@ jobs:
     - name: Set up Selenoid
       run: |
         cd selenoid
-        docker-compose up     
+        docker-compose up -d
 
     - name: Test with pytest
       run: |
         cd ..
         pytest --alluredir=allure-results
+
+    - name: Kill Selenoid
+      run: |
+        cd selenoid
+        docker-compose down
 
