@@ -13,10 +13,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  prep:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -40,7 +38,9 @@ jobs:
       run: |
         cd selenoid
         docker-compose up -d
-
+  test:
+    runs-on: ubuntu-latest
+    steps:
     - name: Test with pytest
       run: |
         cd ..
