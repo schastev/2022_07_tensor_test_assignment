@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  prep and test:
+  prep_and_test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
