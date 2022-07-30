@@ -40,7 +40,7 @@ jobs:
     - name: Test with pytest
       run: |
         cd ..
-        pytest --alluredir=allure-results
+        py.test --alluredir=allure-results
     - uses: actions/upload-artifact@v3
       if: always()
       with:
@@ -91,7 +91,7 @@ jobs:
         with:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: 'Test report'
-          state: 'success'
+          state: 'failure'
           sha: ${{ github.event.push.head.sha }}
           target_url: schastev.github.io/2022_07_tensor_test_assignment/${{ github.run_number }}
 
