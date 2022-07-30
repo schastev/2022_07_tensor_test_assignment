@@ -4,6 +4,7 @@ import allure
 from stere import Stere
 from src.pages.home_page import Home_Page
 from src.pages.images_page import Images_Page
+from src.pages.captcha_page import Captcha_Page
 from test.utils.browser_provider import get_browser
 
 from src.pages.search_results import Search_Results
@@ -22,6 +23,7 @@ class TensorTestCase(unittest.TestCase):
     def navigate_to_home_page(self):
         self.hp = Home_Page()
         self.hp.navigate()
+        assert not Captcha_Page().form.checkbox.is_visible, "Открылась страница с капчей"
 
     def tearDown(self):
         Stere.browser.quit()
