@@ -6,11 +6,6 @@ name: Test assignment
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: write
 
 jobs:
   prep_and_test:
@@ -52,8 +47,6 @@ jobs:
     needs: prep_and_test
     name: Generate Allure Report
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v2
 
@@ -83,7 +76,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          allow_empty_commit: true
 
       - name: Post the link to the report
         if: always()
