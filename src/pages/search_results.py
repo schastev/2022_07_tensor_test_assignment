@@ -29,7 +29,7 @@ class Image_Viewer(Area):
         self.image_container.next.click()
 
     @allure.step("Кликнуть на стрелку влево")
-    def next(self):
+    def prev(self):
         self.image_container.prev.click()
 
     @allure.step("Сравнить текущую картинку с эталонной. Ожидаемый результат сравнения: {1}")

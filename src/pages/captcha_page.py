@@ -8,4 +8,3 @@ class Captcha_Page(Page):
         self.form = Area(
             checkbox=Button('xpath', "//input[@class='CheckboxCaptcha-Button']")
         )
-
