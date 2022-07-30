@@ -80,14 +80,15 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.7.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+          publish_branch: gh-pages
+          publish_dir: allure-history
+          allow_empty_commit: true
 
       - name: Post the link to the report
         if: always()
         uses: Sibz/github-status-action@v1
         with:
-          github_token: ${{secrets.ACTIONS_DEPLOY_KEY}}
+          github_token: ${{secrets.GITHUB_TOKEN}}
           context: 'Test report'
           state: 'success'
           sha: ${{ github.event.pull_request.head.sha }}
