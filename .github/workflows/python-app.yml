@@ -78,8 +78,8 @@ jobs:
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3.7.3
-        env:
-          PERSONAL_TOKEN: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
 
@@ -87,7 +87,7 @@ jobs:
         if: always()
         uses: Sibz/github-status-action@v1
         with:
-          authToken: ${{secrets.ACTIONS_DEPLOY_KEY}}
+          github_token: ${{secrets.ACTIONS_DEPLOY_KEY}}
           context: 'Test report'
           state: 'success'
           sha: ${{ github.event.pull_request.head.sha }}
