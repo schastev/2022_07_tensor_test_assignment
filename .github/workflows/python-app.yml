@@ -93,6 +93,6 @@ jobs:
           authToken: ${{secrets.GITHUB_TOKEN}}
           context: 'Test report'
           state: 'success'
-          sha: ${{ github.event.pull_request.head.sha }}
+          sha: ${{ github.event.push.head.sha }}
           target_url: simple-elf.github.io/github-allure-history/${{ github.run_number }}
 
