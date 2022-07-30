@@ -2,9 +2,9 @@ import unittest
 
 import allure
 from stere import Stere
-from splinter import Browser
 from src.pages.home_page import Home_Page
 from src.pages.images_page import Images_Page
+from test.utils.browser_provider import get_browser
 
 from src.pages.search_results import Search_Results
 
@@ -15,19 +15,7 @@ class TensorTestCase(unittest.TestCase):
         self.navigate_to_home_page()
 
     def browser_setup(self):
-        capabilities = {
-            "browserName": "chrome",
-            "browserVersion": "103.0",
-            "selenoid:options": {
-                "enableVideo": False,
-                "enableVNC": True,
-                "enableLog": True,
-                "screenResolution": "1600x900x24"
-            }
-        }
-        Stere.browser = Browser(driver_name="remote",
-                                command_executor="http://localhost:4444/wd/hub",
-                                desired_capabilities=capabilities)
+        Stere.browser = get_browser()
         Stere.url_navigator = 'visit'
         Stere.base_url = "http://www.yandex.ru/"
 
