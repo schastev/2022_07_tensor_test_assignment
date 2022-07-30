@@ -1,3 +1,4 @@
+import io
 from typing import Union, T
 
 import allure
@@ -5,6 +6,7 @@ from stere import Page
 from stere.areas import RepeatingArea, Area, Repeating
 from stere.fields import Button, Input, Link, Root, Text, Field
 from test.utils.api_utils import download_bytes
+from PIL import Image
 
 from src.common.common_elements import Search
 
@@ -33,11 +35,17 @@ class Image_Viewer(Area):
         self.image_container.prev.click()
 
     @allure.step("Сравнить текущую картинку с эталонной. Ожидаемый результат сравнения: {1}")
-    def compare_images(self, should_equal, compare_to):
+    def compare_images(self, should_equal, other_image):
         current_image = self.download_current_image()
-        allure.attach(compare_to, "Эталонное изображение", allure.attachment_type.JPG)
+        allure.attach(other_image, "Эталонное изображение", allure.attachment_type.JPG)
         allure.attach(current_image, "Текущее изображение", allure.attachment_type.JPG)
-        assert (current_image == compare_to) == should_equal
+        current = Image.open(io.BytesIO(current_image))
+        other = Image.open(io.BytesIO(other_image))
+        if other.size > current.size:
+            other = other.resize(current.size)
+        elif other.size < current.size:
+            current = current.resize(other.size)
+        assert (current == other) == should_equal
         prefix = ''
         if not should_equal:
             prefix = 'не '
