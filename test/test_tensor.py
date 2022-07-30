@@ -55,7 +55,7 @@ class TensorTestCase(unittest.TestCase):
 
         iv = sr.click_result(top_result)
         top_image = iv.download_current_image()
-        iv.image_container.next()
+        iv.next()
         iv.compare_images(False, top_image)
-        iv.image_container.prev()
+        iv.prev()
         iv.compare_images(True, top_image)
