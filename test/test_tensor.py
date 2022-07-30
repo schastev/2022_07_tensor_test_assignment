@@ -1,6 +1,7 @@
 import unittest
 
 import allure
+import splinter
 from stere import Stere
 from src.pages.home_page import Home_Page
 from src.pages.images_page import Images_Page
@@ -23,7 +24,12 @@ class TensorTestCase(unittest.TestCase):
     def navigate_to_home_page(self):
         self.hp = Home_Page()
         self.hp.navigate()
-        assert not Captcha_Page().form.checkbox.is_visible, "Открылась страница с капчей"
+        try:
+            assert not Captcha_Page().form.checkbox.element.visible
+        except splinter.exceptions.ElementDoesNotExist:
+            pass
+        else:
+            assert False, "Открылась страница с капчей"
 
     def tearDown(self):
         Stere.browser.quit()
