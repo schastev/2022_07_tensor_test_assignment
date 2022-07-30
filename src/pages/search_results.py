@@ -39,16 +39,19 @@ class Image_Viewer(Area):
         current_image = self.download_current_image()
         allure.attach(other_image, "Эталонное изображение", allure.attachment_type.JPG)
         allure.attach(current_image, "Текущее изображение", allure.attachment_type.JPG)
-        current = Image.open(io.BytesIO(current_image))
-        other = Image.open(io.BytesIO(other_image))
+        current = Image.open(io.BytesIO(current_image)).convert('RGB')
+        other = Image.open(io.BytesIO(other_image)).convert('RGB')
         if other.size > current.size:
             other = other.resize(current.size)
         elif other.size < current.size:
             current = current.resize(other.size)
-        assert (current == other) == should_equal
+        equal = list(current.getdata()) == list(other.getdata())
         prefix = ''
-        if not should_equal:
+        if should_equal:
+            assert equal is True, "Текущая картинка не равна эталонной"
+        else:
             prefix = 'не '
+            assert equal is False, "Текущая картинка равна эталонной"
         allure.attach(f"Текущая картинка {prefix}равна эталонной", "Сравнение изображений", allure.attachment_type.TEXT)
 
 
