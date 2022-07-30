@@ -25,6 +25,12 @@ jobs:
         if: always()
         run: |
           flake8
+      - name: Set up Selenoid
+          run: |
+            docker pull selenoid/vnc_chrome:103.0
+            cd selenoid
+            docker-compose up -d
+            cd ..
       - name: Run Test
         if: always()
         run: pytest --alluredir=allure-results
