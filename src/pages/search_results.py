@@ -35,6 +35,8 @@ class Image_Viewer(Area):
     @allure.step("Сравнить текущую картинку с эталонной. Ожидаемый результат сравнения: {1}")
     def compare_images(self, should_equal, compare_to):
         current_image = self.download_current_image()
+        allure.attach(compare_to, "Эталонное изображение", allure.attachment_type.JPG)
+        allure.attach(current_image, "Текущее изображение", allure.attachment_type.JPG)
         assert (current_image == compare_to) == should_equal
         prefix = ''
         if not should_equal:
