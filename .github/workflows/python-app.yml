@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  prep:
+  prep and test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -50,9 +50,11 @@ jobs:
 
   allure:
     if: always()
-    needs: prep
+    needs: prep and test
     name: Generate Allure Report
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v2
 
