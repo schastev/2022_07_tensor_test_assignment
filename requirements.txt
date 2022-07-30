@@ -35,3 +35,4 @@ urllib3
 wheel
 wsproto
 requests
+Pillow
