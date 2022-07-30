@@ -25,7 +25,7 @@ class TensorTestCase(unittest.TestCase):
         self.hp = Home_Page()
         self.hp.navigate()
         try:
-            assert not Captcha_Page().form.checkbox.element.visible
+            assert Captcha_Page().form.checkbox.element.visible
         except splinter.exceptions.ElementDoesNotExist:
             pass
         else:
