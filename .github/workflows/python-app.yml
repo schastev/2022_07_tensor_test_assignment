@@ -42,9 +42,10 @@ jobs:
         cd ..
         pytest --alluredir=allure-results
     - uses: actions/upload-artifact@v3
+      if: always()
       with:
-        name: my-artifact
-        path: path/to/artifact/
+        name: allure-results
+        path: allure-results
 
   allure:
     if: always()
