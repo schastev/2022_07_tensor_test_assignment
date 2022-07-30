@@ -32,5 +32,4 @@ class Images_Page(Page):
             title=Text('xpath', ".//div[contains(@class, 'PopularRequestList-SearchText')]")
         )
         url = 'yandex.ru/images'
-        assert url in browser.url
-        allure.attach(f"Содержимое адресной строки браузера: {browser.url}", f"Проверка перехода на адрес {url}")
+        assert url in browser.url, f"Адресная строка ({browser.url}) не содержит подстроку \"{url}\""

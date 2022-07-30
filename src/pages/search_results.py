@@ -18,9 +18,7 @@ class Image_Viewer(Area):
             prev=Button('xpath', "//div[contains(@class, 'CircleButton_type_prev')]"),
             image=Field('xpath', '//img[@class="MMImage-Origin"]')
         )
-        assert self.image_container.image.is_visible
-        allure.attach("Картинка открылась",
-                      "Проверка открытия картинки в списке результатов", allure.attachment_type.TEXT)
+        assert self.image_container.image.is_visible, "Картинка не открылась после клика"
 
     def download_current_image(self):
         link = self.image_container.image.element['src']
@@ -78,5 +76,5 @@ class Search_Results(Page):
     def assert_top_result_leads_to_site(self, site):
         top_result = self.get_top_result()
         top_result_link = top_result.link.element['href']
-        assert site in top_result_link
+        assert site in top_result_link, f"Ссылка в первом результате поиска не содержит подстроку {site}"
         allure.attach(top_result_link, "Ссылка в первом результате поиска", allure.attachment_type.TEXT)

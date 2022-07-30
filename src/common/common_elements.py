@@ -14,8 +14,7 @@ class Navigation(RepeatingArea):
     def click_navigation(self, section, close_prev_window, browser):
         window_name = browser.windows.current.name
         element = self.areas.containing("title", section)[0].link
-        assert element.is_visible
-        allure.attach("Ссылка отображается", f"Проверка отображения ссылки на раздел {section}")
+        assert element.is_visible(3), f"Ссылка на раздел {section} не отображается"
         element.click()
         if close_prev_window:
             utils.close_window(browser, window_name, browser.title)
@@ -33,10 +32,7 @@ class Search(Area):
 
     @allure.step('Ввести "{1}" в строку поиска')
     def input_query(self, query):
-        assert self.query.is_visible
-        allure.attach("Строка поиска отображается",
-                      "Проверить отображение строки поиска",
-                      allure.attachment_type.TEXT)
+        assert self.query.is_visible(3), "Строка поиска не отображается"
         self.query.fill(query)
         return Suggestions(
             root=Root('xpath', "//li[contains(@class, 'mini-suggest__item')]"),
@@ -44,16 +40,10 @@ class Search(Area):
 
     @allure.step('Проверить, что в строке поиска отображается {1}')
     def assert_query(self, query):
-        assert self.query.element.value == query
-        allure.attach(f"Строка поиска содержит \"{query}\"",
-                      "Проверка содержимого строки поиска",
-                      allure.attachment_type.TEXT)
+        assert self.query.element.value == query, f"Строка поиска не содержит \"{query}\""
 
 
 class Suggestions(RepeatingArea):
     def __init__(self, root: Field, **kwargs: Union[Field, Area]):
         super().__init__(root, **kwargs)
-        assert self.areas[0].link.is_visible
-        allure.attach("Предложения отображаются",
-                      "Проверка отображения поисковых предложений",
-                      allure.attachment_type.TEXT)
+        assert self.areas[0].link.is_visible(3), "Поисковые предложения не отображаются"
