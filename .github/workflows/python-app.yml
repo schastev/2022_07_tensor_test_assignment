@@ -39,6 +39,7 @@ jobs:
         cd selenoid
         docker-compose up -d
   test:
+    needs: prep
     runs-on: ubuntu-latest
     steps:
     - name: Test with pytest
@@ -52,6 +53,8 @@ jobs:
         docker-compose down
 
   allure:
+    if: always()
+    needs: test
     name: Generate Allure Report
     runs-on: ubuntu-latest
     steps:
