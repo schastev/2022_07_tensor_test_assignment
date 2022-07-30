@@ -50,7 +50,7 @@ jobs:
 
   allure:
     if: always()
-    needs: prep and test
+    needs: prep_and_test
     name: Generate Allure Report
     runs-on: ubuntu-latest
     permissions:
