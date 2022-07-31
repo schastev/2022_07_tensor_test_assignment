@@ -6,20 +6,15 @@ from stere import Stere
 from src.pages.home_page import Home_Page
 from src.pages.images_page import Images_Page
 from src.pages.captcha_page import Captcha_Page
-from test.utils.browser_provider import get_browser
+from test.utils.browser_utils import browser_setup
 
 from src.pages.search_results import Text_Search_Results
 
 
 class TensorTestCase(unittest.TestCase):
     def setUp(self):
-        self.browser_setup()
+        browser_setup()
         self.navigate_to_home_page()
-
-    def browser_setup(self):
-        Stere.browser = get_browser()
-        Stere.url_navigator = 'visit'
-        Stere.base_url = "http://www.yandex.ru/"
 
     def navigate_to_home_page(self):
         self.hp = Home_Page()
