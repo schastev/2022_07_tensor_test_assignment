@@ -14,7 +14,7 @@ class Navigation(RepeatingArea):
     def click_navigation(self, section, close_prev_window, browser):
         window_name = browser.windows.current.name
         element = self.areas.containing("title", section)[0].link
-        assert element.is_visible(3), f"Ссылка на раздел {section} не отображается"
+        assert element.is_visible(3), f"Ссылка на раздел \"{section}\" не отображается"
         element.click()
         if close_prev_window:
             utils.close_window(browser, window_name, browser.title)
@@ -38,7 +38,6 @@ class Search(Area):
             root=Root('xpath', "//li[contains(@class, 'mini-suggest__item')]"),
             link=Link('xpath', './span'))
 
-    @allure.step('Проверить, что в строке поиска отображается {1}')
     def assert_query(self, query):
         assert self.query.element.value == query, f"Строка поиска не содержит \"{query}\""
 

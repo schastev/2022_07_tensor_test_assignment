@@ -58,8 +58,9 @@ class Search_Results(ABC):
         )
         self.results = None
 
+    @abstractmethod
     def get_top_result(self):
-        return self.results.areas[0]
+        pass
 
     @abstractmethod
     def click_result(self, result):
@@ -71,12 +72,18 @@ class Image_Search_Results(Search_Results):
         super().__init__()
         self.results = RepeatingArea(
             root=Root('xpath', "//div[@role='listitem' and @data-grid-position]"),
-            link=Link('xpath', ".//a")
+            link=Link('xpath', ".//a"),
+            image=Field('xpath', ".//img")
         )
 
     def click_result(self, result):
         super(Image_Search_Results, self).click_result(result)
         return Image_Viewer()
+
+    def get_top_result(self):
+        top = self.results.areas[0]
+        allure.attach(download_bytes(top.image.element['src']), "Выбран первый результат в выдаче")
+        return top
 
 
 class Text_Search_Results(Search_Results):
@@ -87,6 +94,11 @@ class Text_Search_Results(Search_Results):
             title=Text('xpath', ".//span[contains(@class, 'organic__title')]"),
             link=Link('xpath', ".//a[contains(@class, 'path__item')]")
         )
+
+    def get_top_result(self):
+        top = self.results.areas[0]
+        allure.attach(top.title.element.text, "Выбран первый результат в выдаче")
+        return top
 
     def click_result(self, result):
         super(Text_Search_Results, self).click_result(result)

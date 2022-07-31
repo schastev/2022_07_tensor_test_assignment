@@ -16,7 +16,9 @@ class Popular_Items(RepeatingArea):
         )
 
     def get_top_item(self):
-        return self.items.areas[0].title.element.text
+        top = self.items.areas[0].title.element.text
+        allure.attach(top, "Выбрана первая категория")
+        return top
 
     @allure.step('Кликнуть на категорию "{1}')
     def click_category(self, cat_name):
