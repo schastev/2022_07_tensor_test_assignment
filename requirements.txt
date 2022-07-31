@@ -36,3 +36,4 @@ wheel
 wsproto
 requests
 Pillow
+ImageHash

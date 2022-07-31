@@ -1,4 +1,3 @@
-import io
 from typing import Union, T
 
 import allure
@@ -6,7 +5,7 @@ from stere import Page
 from stere.areas import RepeatingArea, Area, Repeating
 from stere.fields import Button, Input, Link, Root, Text, Field
 from test.utils.api_utils import download_bytes
-from PIL import Image
+from test.utils.image_utils import compare_images
 
 from src.common.common_elements import Search
 
@@ -35,27 +34,12 @@ class Image_Viewer(Area):
         self.image_container.prev.click()
 
     @allure.step("Сравнить текущую картинку с эталонной. Ожидаемый результат сравнения: {1}")
-    def compare_images(self, should_equal, other_image):
-        current_image = self.download_current_image()
-        current = Image.open(io.BytesIO(current_image)).convert('RGB')
-        other = Image.open(io.BytesIO(other_image)).convert('RGB')
-        if other.size > current.size:
-            other = other.resize(current.size)
-        elif other.size < current.size:
-            current = current.resize(other.size)
-        equal = list(current.getdata()) == list(other.getdata())
+    def compare_images(self, should_equal, standard):
+        current = self.download_current_image()
+        equal = compare_images(standard, current)
+        allure.attach(standard, "Эталонное изображение", allure.attachment_type.JPG)
+        allure.attach(current, "Текущее изображение", allure.attachment_type.JPG)
         prefix = ''
-
-        other_bytes = io.BytesIO()
-        other.save(other_bytes, format='PNG')
-        other_bytes = other_bytes.getvalue()
-
-        current_bytes = io.BytesIO()
-        current.save(current_bytes, format='PNG')
-        current_bytes = current_bytes.getvalue()
-
-        allure.attach(other_bytes, "Эталонное изображение", allure.attachment_type.JPG)
-        allure.attach(current_bytes, "Текущее изображение", allure.attachment_type.JPG)
         if should_equal:
             assert equal is True, "Текущая картинка не равна эталонной"
         else:
