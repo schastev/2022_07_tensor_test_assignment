@@ -1,0 +1,1 @@
+[{"uid":"7c2b3a96e14429b4","name":"Поиск в яндексе","time":{"start":1659262837550,"stop":1659262841839,"duration":4289},"status":"failed","severity":"normal"},{"uid":"6afdbea843b228ea","name":"Картинки в яндексе","time":{"start":1659262821723,"stop":1659262837547,"duration":15824},"status":"passed","severity":"normal"}]
