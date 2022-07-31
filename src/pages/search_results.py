@@ -1,13 +1,13 @@
 from typing import Union, T
 
 import allure
-from stere import Page
+from abc import ABC, abstractmethod
 from stere.areas import RepeatingArea, Area, Repeating
-from stere.fields import Button, Input, Link, Root, Text, Field
-from test.utils.api_utils import download_bytes
-from test.utils.image_utils import compare_images
+from stere.fields import Button, Link, Root, Text, Field, Input
 
 from src.common.common_elements import Search
+from test.utils.api_utils import download_bytes
+from test.utils.image_utils import compare_images
 
 
 class Image_Viewer(Area):
@@ -48,36 +48,49 @@ class Image_Viewer(Area):
         allure.attach(f"Текущая картинка {prefix}равна эталонной", "Сравнение изображений", allure.attachment_type.TEXT)
 
 
-class Search_Results(Page):
+class Search_Results(ABC):
     @allure.step('Перейти на страницу результатов поиска')
-    def __init__(self, mode):
+    def __init__(self):
         self.search_form = Search(
             root=Root('xpath', "//form[@role='search']"),
             query=Input('xpath', ".//input[not(@type='hidden')]"),
             submit=Button('xpath', ".//button")
         )
-        if mode == 'text':
-            self.results = RepeatingArea(
-                root=Root('xpath', "//li[contains(@class, 'serp-item')]"),
-                title=Text('xpath', ".//span[contains(@class, 'organic__title')]"),
-                link=Link('xpath', ".//a[contains(@class, 'path__item')]")
-            )
-        elif mode == 'image':
-            self.results = RepeatingArea(
-                root=Root('xpath', "//div[@role='listitem' and @data-grid-position]"),
-                link=Link('xpath', ".//a")
-            )
-            self.mode = mode
+        self.results = None
 
     def get_top_result(self):
         return self.results.areas[0]
 
+    @abstractmethod
     def click_result(self, result):
         result.link.click()
-        if self.mode == 'image':
-            return Image_Viewer()
 
-    # todo think of a way to assign methods to specific modes: this method is text-only
+
+class Image_Search_Results(Search_Results):
+    def __init__(self):
+        super().__init__()
+        self.results = RepeatingArea(
+            root=Root('xpath', "//div[@role='listitem' and @data-grid-position]"),
+            link=Link('xpath', ".//a")
+        )
+
+    def click_result(self, result):
+        super(Image_Search_Results, self).click_result(result)
+        return Image_Viewer()
+
+
+class Text_Search_Results(Search_Results):
+    def __init__(self):
+        super().__init__()
+        self.results = RepeatingArea(
+            root=Root('xpath', "//li[contains(@class, 'serp-item')]"),
+            title=Text('xpath', ".//span[contains(@class, 'organic__title')]"),
+            link=Link('xpath', ".//a[contains(@class, 'path__item')]")
+        )
+
+    def click_result(self, result):
+        super(Text_Search_Results, self).click_result(result)
+
     @allure.step('Проверить, что ссылка в первом результате поиска содержит {1}')
     def assert_top_result_leads_to_site(self, site):
         top_result = self.get_top_result()

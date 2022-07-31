@@ -8,7 +8,7 @@ from src.pages.images_page import Images_Page
 from src.pages.captcha_page import Captcha_Page
 from test.utils.browser_provider import get_browser
 
-from src.pages.search_results import Search_Results
+from src.pages.search_results import Text_Search_Results
 
 
 class TensorTestCase(unittest.TestCase):
@@ -40,7 +40,7 @@ class TensorTestCase(unittest.TestCase):
         self.hp.search_form.input_query("Тензор")
         self.hp.search_form.submit()
 
-        sr = Search_Results('text')
+        sr = Text_Search_Results()
         sr.assert_top_result_leads_to_site('tensor.ru')
 
     @allure.title('Картинки в яндексе')
