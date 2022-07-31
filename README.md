@@ -1,4 +1,4 @@
-![Tensor assignment](https://github.com/schastev/2022_07_tensor_test_assignment/actions/workflows/python-app.yml/badge.svg)
+[![tensor-test-assignment](https://github.com/schastev/2022_07_tensor_test_assignment/actions/workflows/python-app.yml/badge.svg)](https://github.com/schastev/2022_07_tensor_test_assignment/actions/workflows/python-app.yml)
 
 [Отчет Allure](https://schastev.github.io/2022_07_tensor_test_assignment)
 
