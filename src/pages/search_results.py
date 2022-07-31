@@ -72,12 +72,11 @@ class Image_Search_Results(Search_Results):
         super().__init__()
         self.results = RepeatingArea(
             root=Root('xpath', "//div[@role='listitem' and @data-grid-position]"),
-            link=Link('xpath', ".//a"),
             image=Field('xpath', ".//img")
         )
 
     def click_result(self, result):
-        super(Image_Search_Results, self).click_result(result)
+        result.image.click()
         return Image_Viewer()
 
     def get_top_result(self):
