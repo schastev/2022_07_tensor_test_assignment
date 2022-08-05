@@ -1,4 +1,4 @@
-name: tensor-test-assignment
+name: test-assignment
 
 on:
   push:
