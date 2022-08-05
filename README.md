@@ -1,6 +1,6 @@
-[![tensor-test-assignment](https://github.com/schastev/2022_07_tensor_test_assignment/actions/workflows/python-app.yml/badge.svg?branch=main&event=push)](https://github.com/schastev/2022_07_tensor_test_assignment/actions/workflows/python-app.yml)
+[![test-assignment](https://github.com/schastev/2022_07_test_assignment/actions/workflows/python-app.yml/badge.svg?branch=main&event=push)](https://github.com/schastev/2022_07_test_assignment/actions/workflows/python-app.yml)
 
-[Отчет Allure](https://schastev.github.io/2022_07_tensor_test_assignment)
+[Отчет Allure](https://schastev.github.io/2022_07_test_assignment)
 
 ### Подготовка окружения:
 Данный проект можно запустить как с локальным браузером, так и с использованием Selenoid. 
@@ -32,5 +32,3 @@
 > В этом случае можно либо обратиться к отчету, ссылку на который можно найти в начале данного файла, либо подменить 
 > тело метода `test.utils.config_utils.local_browser` на `return True`, если нужен запуск в локальном браузере, 
 > или на `return False`, если нужен запуск в Selenoid.
-
-
