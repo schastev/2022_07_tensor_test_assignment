@@ -1,3 +1,3 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Sat Aug 06 18:16:33 GMT 2022","Sat Aug 06 18:16:36 GMT 2022","3310","test","test_tensor","TensorTestCase","","","Поиск в яндексе",""
-"passed","Sat Aug 06 18:16:15 GMT 2022","Sat Aug 06 18:16:33 GMT 2022","17709","test","test_tensor","TensorTestCase","","","Картинки в яндексе",""
+"passed","Sat Aug 06 18:21:39 GMT 2022","Sat Aug 06 18:22:00 GMT 2022","21835","test","test_tensor","TensorTestCase","","","Картинки в яндексе",""
+"failed","Sat Aug 06 18:22:00 GMT 2022","Sat Aug 06 18:22:04 GMT 2022","3566","test","test_tensor","TensorTestCase","","","Поиск в яндексе",""

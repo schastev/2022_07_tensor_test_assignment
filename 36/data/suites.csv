@@ -1,3 +1,0 @@
-"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Sat Jul 30 14:35:20 GMT 2022","Sat Jul 30 14:35:34 GMT 2022","14666","test","test_tensor","TensorTestCase","","","Картинки в яндексе",""
-"failed","Sat Jul 30 14:35:34 GMT 2022","Sat Jul 30 14:35:38 GMT 2022","3960","test","test_tensor","TensorTestCase","","","Поиск в яндексе",""
